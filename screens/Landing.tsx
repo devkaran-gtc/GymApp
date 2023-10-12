@@ -1,37 +1,42 @@
-import { View, Text, StyleSheet, ImageBackground, Image, Pressable } from 'react-native'
+import { View, Text, StyleSheet, ImageBackground, Image, Pressable, StatusBar } from 'react-native'
 import React from 'react'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import { RootStackParamList } from '../App'
+import CustomButton from '../components/CustomButton'
+import { useTranslation } from 'react-i18next'
+import Animated, { useSharedValue } from 'react-native-reanimated';
+
+
 
 
 type landingProps = NativeStackScreenProps<RootStackParamList, 'Landing'>
 
 const Landing = ({ navigation }: landingProps) => {
+
+    const { t } = useTranslation();
+    const width = useSharedValue(100);
+
     return (
         <>
-            <ImageBackground style={styles.container} source={require('../assets/images/back.png')} >
+            <StatusBar translucent backgroundColor={'transparent'} />
+            <ImageBackground style={styles.container} source={require('../assets/images/splash.png')} >
                 <View style={styles.overlay} />
 
                 <View style={{ flex: 1.3, justifyContent: 'flex-end', alignItems: 'center' }}>
                     <Image style={styles.logo} source={require('../assets/images/logo.png')} />
                 </View>
 
-
                 <View style={{ flex: 1, justifyContent: 'flex-end' }}>
 
-                    <Pressable style={[styles.button, { backgroundColor: '#006BFF' }]} >
-                        <Text style={styles.btnText}>I’m Ready to Join</Text>
-                    </Pressable>
+                    <CustomButton backgroundColor='#006BFF' height={50} width={'90%'} text={t('ready')} size={13} spacing={2} marginHorizontal={20} marginVertical={35} textColor={'white'} onPress={() => { navigation.navigate('Login') }} />
 
                     <Pressable style={[styles.button, {
-                        marginBottom: 40, borderWidth: 1,
-                        borderColor: '#4D4D4D'
-                    }]} onPress={() => { navigation.navigate('Login') }} >
-                        <Text style={styles.btnText}>Skip</Text>
+                        marginBottom: 40, borderWidth: 1, borderColor: '#4D4D4D'
+                    }]} onPress={() => { navigation.navigate('Home') }}>
+                        <Text style={styles.btnText}>{t('Skip')}</Text>
                     </Pressable>
 
                 </View>
-
 
             </ImageBackground>
 
@@ -51,7 +56,7 @@ const styles = StyleSheet.create({
 
     overlay: {
         ...StyleSheet.absoluteFillObject,
-        backgroundColor: 'rgba(0, 0, 0, 0.7)', // Adjust the color and opacity as needed
+        backgroundColor: 'rgba(0, 0, 0, 0.3)', // Adjust the color and opacity as needed
     },
 
     logo: {
